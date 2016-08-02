@@ -6,7 +6,7 @@ License:	GPL v3
 Group:		Applications/System
 Source0:	https://www.drbd.org/download/drbdmanage/%{name}-%{version}.tar.gz
 # Source0-md5:	3c248e2914bf23abefe1ed7c98498ab6
-Patch0:     drbdmanaged_service_fix.patch
+Patch0:		%{name}d_service_fix.patch
 URL:		http://oss.linbit.com/drbdmanage
 BuildRequires:	python-modules
 BuildRequires:	python-setuptools
@@ -26,10 +26,10 @@ backing LVM volumes. It automatically places the backing LVM volumes
 among the participating machines.
 
 %package -n bash-completion-drbdmanage
-Summary:    Bash completion for drbdmanage command
-Group:      Applications/Shells
-Requires:   %{name} = %{version}-%{release}
-Requires:   bash-completion
+Summary:	Bash completion for drbdmanage command
+Group:		Applications/Shells
+Requires:	%{name} = %{version}-%{release}
+Requires:	bash-completion
 
 %description -n bash-completion-drbdmanage
 Bash completion for drbdmanage command.
