@@ -1,11 +1,12 @@
 Summary:	DRBD9 distributed resource management utility
 Name:		drbdmanage
 Version:	0.97
-Release:	0.3
+Release:	0.5
 License:	GPL v3
 Group:		Applications/System
 Source0:	https://www.drbd.org/download/drbdmanage/%{name}-%{version}.tar.gz
 # Source0-md5:	3c248e2914bf23abefe1ed7c98498ab6
+Patch0:     drbdmanaged_service_fix.patch
 URL:		http://oss.linbit.com/drbdmanage
 BuildRequires:	python-modules
 BuildRequires:	python-setuptools
@@ -24,19 +25,37 @@ configuration on the participating machines. It creates/deletes the
 backing LVM volumes. It automatically places the backing LVM volumes
 among the participating machines.
 
+%package -n bash-completion-drbdmanage
+Summary:    Bash completion for drbdmanage command
+Group:      Applications/Shells
+Requires:   %{name} = %{version}-%{release}
+Requires:   bash-completion
+
+%description -n bash-completion-drbdmanage
+Bash completion for drbdmanage command.
+
 %prep
 %setup -q
 
+%patch0 -p1
+
 %build
-%py_build
+%{__make} all
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/var/lib/drbd.d
 %py_install
 %py_postclean
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+%systemd_post drbdmanaged.{service,socket}
+
+%preun
+%systemd_preun drbdmanaged.{service,socket}
 
 %files
 %defattr(644,root,root,755)
@@ -54,7 +73,11 @@ rm -rf $RPM_BUILD_ROOT
 %{py_sitescriptdir}/drbdmanage_client.py[co]
 %{py_sitescriptdir}/drbdmanage_server.py[co]
 %{py_sitescriptdir}/drbdmanage-%{version}-py*.egg-info
+%attr(750,root,root) /var/lib/drbd.d
+%{_mandir}/man8/drbdmanage-*
+%{_mandir}/man8/drbdmanage.*
 %dir %{_localstatedir}/lib/drbdmanage
 
-# bash-completion package
+%files -n bash-completion-drbdmanage
+%defattr(644,root,root,755)
 /etc/bash_completion.d/drbdmanage
