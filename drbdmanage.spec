@@ -1,13 +1,13 @@
 Summary:	DRBD9 distributed resource management utility
 Name:		drbdmanage
-Version:	0.97
-Release:	0.6
+Version:	0.99.14
+Release:	0.1
 License:	GPL v3
 Group:		Applications/System
 Source0:	https://www.drbd.org/download/drbdmanage/%{name}-%{version}.tar.gz
-# Source0-md5:	3c248e2914bf23abefe1ed7c98498ab6
-Patch0:		%{name}d_service_fix.patch
+# Source0-md5:	c0b3cd6a7c26014a0a6a92d82d40446b
 URL:		http://oss.linbit.com/drbdmanage
+BuildRequires:  help2man
 BuildRequires:	python-modules
 BuildRequires:	python-setuptools
 BuildRequires:	rpm-pythonprov
@@ -37,8 +37,6 @@ Bash completion for drbdmanage command.
 %prep
 %setup -q
 
-%patch0 -p1
-
 %build
 %{__make} all
 
@@ -60,7 +58,6 @@ export NORESTART="yes"
 
 %files
 %defattr(644,root,root,755)
-%doc README
 %attr(755,root,root) %{_bindir}/drbdmanage
 %attr(755,root,root) %{_bindir}/dbus-drbdmanaged-service
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/drbdmanaged.cfg
@@ -69,7 +66,6 @@ export NORESTART="yes"
 %config(noreplace) %verify(not md5 mtime size) /etc/dbus-1/system.d/org.drbd.drbdmanaged.conf
 %{_datadir}/dbus-1/system-services/org.drbd.drbdmanaged.service
 %{systemdunitdir}/drbdmanaged.service
-%{systemdunitdir}/drbdmanaged.socket
 %{py_sitescriptdir}/drbdmanage
 %{py_sitescriptdir}/drbdmanage_client.py[co]
 %{py_sitescriptdir}/drbdmanage_server.py[co]
