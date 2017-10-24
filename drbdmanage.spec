@@ -1,7 +1,7 @@
 Summary:	DRBD9 distributed resource management utility
 Name:		drbdmanage
 Version:	0.99.14
-Release:	0.1
+Release:	0.2
 License:	GPL v3
 Group:		Applications/System
 Source0:	https://www.drbd.org/download/drbdmanage/%{name}-%{version}.tar.gz
@@ -51,10 +51,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 export NORESTART="yes"
-%systemd_post drbdmanaged.{service,socket}
+%systemd_post drbdmanaged.service
 
 %preun
-%systemd_preun drbdmanaged.{service,socket}
+%systemd_preun drbdmanaged.service
 
 %files
 %defattr(644,root,root,755)
